@@ -18,18 +18,18 @@ exports.insertInfos = function insertInfos(infos){
 }
 
 exports.getInfos = async function getInfos(){
-  const infos = 
-   await client
+   return new Promise(function(resolve, reject){
+        client
         .connect()
         .then(function(){
             const db = client.db(dbName);
             const collection = db.collection('infos');
             collection
             .find({})
-            .then(function(err, result){
+            .toArray(function(err, result){
                 client.close();
-                return result;
+                resolve(result);
             });
-        }); 
-    return infos;
+        })
+    });
 }

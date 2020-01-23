@@ -1,9 +1,11 @@
 var express = require('express');
+var repo = require('../repo');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.json({msg:'hi hi!'})
+router.get('/', async function(req, res, next) {
+  const infos = await repo.getInfos();
+  res.json(infos);
 });
 
 module.exports = router;
