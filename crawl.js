@@ -1,9 +1,10 @@
 const fetch = require('node-fetch');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const repo = require('./repo.js');
 const igraalUrl = "https://fr.igraal.com/ajax/category-merchants/informatique/1";
 
-const vendorsInfo = {};
+const vendorsInfo = [];
 
 async function crawl(vendorName, url) {
   var res = 
@@ -18,12 +19,13 @@ async function crawl(vendorName, url) {
      var m = merchants[i];
      var merchant = m.querySelector("h2").innerHTML;
      var cashBackPercent = m.querySelector(".cashback_rate").innerHTML;
-     vendorsInfo[vendorName].push({
+     vendorsInfo.push({
+       vendorName,
        merchant,
        cashBackPercent,
      });
   }
-  console.log(JSON.stringify(vendorsInfo));
+  repo.insertInfos(vendorsInfo);
 }
 
 crawl("igraal", igraalUrl);
